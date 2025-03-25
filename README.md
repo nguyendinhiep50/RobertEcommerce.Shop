@@ -8,15 +8,8 @@ Dự án này sử dụng kiến trúc Microservices kết hợp với Aspire v�
 
 📂 Cấu trúc thư mục
 
-src
-│── Common
-│── Services # Các Microservices chính
-│ ├── ProductService # Quản lý sản phẩm
-│ ├── OrderService # Quản lý đơn hàng
-│ ├── IdentityService # Quản lý người dùng
-│── Shared
-│── AdminPanel # Web Admin (Blazor)
-│── AspireHost # Dự án Aspire quản lý toàn bộ service
+![image](https://github.com/user-attachments/assets/ef52ded1-eed3-43a6-b5b7-d6bfa9321bb2)
+
 
 🔧 Công nghệ sử dụng
 
