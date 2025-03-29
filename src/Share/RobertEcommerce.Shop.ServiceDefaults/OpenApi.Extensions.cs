@@ -14,13 +14,6 @@ public static partial class Extensions
     public static IApplicationBuilder UseDefaultOpenApi(this WebApplication app)
     {
         var configuration = app.Configuration;
-        var openApiSection = configuration.GetSection("OpenApi");
-
-        if (!openApiSection.Exists())
-        {
-            return app;
-        }
-
         app.MapOpenApi();
 
         if (app.Environment.IsDevelopment())

@@ -5,15 +5,17 @@ var builder = DistributedApplication.CreateBuilder(args);
 builder.AddForwardedHeaders();
 
 var redis = builder.AddRedis("redisEcommerce")
-    .WithBindMount("ecommerce_shop_redis", "/var/lib/postgresql/data")
+    .WithBindMount(@"D:\Docker_volumes\ecommerce_shop", "/var/lib/redis")
     .WithLifetime(ContainerLifetime.Persistent);
+
 var rabbitMq = builder.AddRabbitMQ("eventbusEcommerce")
-    .WithBindMount("ecommerce_shop_rabbitMq", "/var/lib/postgresql/data")
+    .WithBindMount(@"D:\Docker_volumes\ecommerce_shop", "/var/lib/rabbitmq")
     .WithLifetime(ContainerLifetime.Persistent);
+
 var postgres = builder.AddPostgres("postgresEcommerce")
-    .WithBindMount("ecommerce_shop_postgres", "/var/lib/postgresql/data")
+    .WithBindMount(@"D:\Docker_volumes\ecommerce_shop", "/var/lib/postgresql/data")
     .WithPgWeb(container => container
-        .WithBindMount("ecommerce_shop_postgres_web", "/var/lib/postgresql/data")
+        .WithBindMount(@"D:\Docker_volumes\ecommerce_shop", "/var/lib/pgadmin")
         .WithLifetime(ContainerLifetime.Persistent))
     .WithImageTag("latest")
     .WithImage("ankane/pgvector")
@@ -36,6 +38,9 @@ var launchProfileName = ShouldUseHttpForEndpoints() ? "http" : "https";
 var basketApi = builder.AddProject<Projects.Manager_EC>("manager-ec")
     .WithReference(redis)
     .WithReference(rabbitMq).WaitFor(rabbitMq);
+    //.WithEnvironment("Identity__Url", identityEndpoint);
+
+builder.AddProject<Projects.Identity_API>("identity-api");
     //.WithEnvironment("Identity__Url", identityEndpoint);
 
 builder.Build().Run();

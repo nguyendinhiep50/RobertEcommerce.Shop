@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Manager.EC\Manager.EC\Manager.EC.csproj" />
+    <ProjectReference Include="..\src\Service\Identity.API\Identity.API.csproj" />
   </ItemGroup>
 
 </Project>
