@@ -1,7 +1,9 @@
 ﻿@using Manager.EC.Components.Layout
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Admin")]
 
 @inherits LayoutComponentBase
-
 
 @if ( layoutType == "fixed-header" )
 {
@@ -66,4 +68,25 @@ else if ( layoutType == "sider-with-header-on-top" )
             </Layout>
         </Layout>
     </Layout>
+}
+
+
+@code {
+    private bool isFirstRender = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && isFirstRender)
+        {
+            isFirstRender = false;
+
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            if (!user.Identity?.IsAuthenticated ?? true)
+            {
+                Navigation.NavigateTo("/login");
+            }
+        }
+    }
 }

@@ -1,7 +1,10 @@
-﻿<Blazorise.ThemeProvider Theme="@theme">
+﻿@using Manager.EC.Services
+@inject LogOutService LogOutService
+
+<Blazorise.ThemeProvider Theme="@theme">
     <Router AppAssembly="typeof(App).Assembly">
         <Found Context="routeData">
-            <RouteView RouteData="routeData" DefaultLayout="typeof(Manager.EC.Layouts.MainLayout)" />
+            <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Manager.EC.Layouts.MainLayout)" />
         </Found>
         <NotFound>
             <p>Sorry, there's nothing at this address.</p>
@@ -11,6 +14,12 @@
     <PageProgressProvider />
 </Blazorise.ThemeProvider>
 @code {
+    [CascadingParameter]
+    public HttpContext? HttpContext { get; set; }
+
+    private Task LogOutAsync()
+        => LogOutService.LogOutAsync(HttpContext!);
+
     private Theme theme = new()
         {
             BarOptions = new()

@@ -1,11 +1,12 @@
-using Blazorise.Tailwind;
-using Blazorise.Icons.FontAwesome;
-
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddBasicServiceDefaults();
+builder.AddApplicationServices();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();
 
 AddBlazorise( builder.Services );
 
