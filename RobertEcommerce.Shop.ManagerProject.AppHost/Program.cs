@@ -15,7 +15,7 @@ var rabbitMq = builder.AddRabbitMQ("eventbusEcommerce")
 var postgres = builder.AddPostgres("postgresEcommerce")
     .WithBindMount(@"D:\Docker_volumes\ecommerce_shop\postgres", "/var/lib/postgresql/data")
     .WithPgWeb(container => container
-        .WithBindMount(@"D:\Docker_volumes\ecommerce_shop\pgadmin", "/var/lib/pgadmin")
+             .WithBindMount(@"D:\Docker_volumes\ecommerce_shop\pgadmin", "/var/lib/pgadmin")
         .WithLifetime(ContainerLifetime.Persistent))
     .WithImageTag("0.16.2")
     .WithImage("ankane/pgvector")
@@ -39,7 +39,7 @@ var identityApi = builder.AddProject<Projects.Identity_API>("identity-api", laun
 var basketApi = builder.AddProject<Projects.Manager_EC>("manager-ec")
     .WithReference(redis)
     .WithReference(rabbitMq).WaitFor(rabbitMq);
-    //.WithEnvironment("Identity__Url", identityEndpoint);
+//.WithEnvironment("Identity__Url", identityEndpoint);
 
 builder.Build().Run();
 

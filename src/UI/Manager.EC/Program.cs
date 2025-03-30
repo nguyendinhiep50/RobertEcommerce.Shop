@@ -8,7 +8,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
 
-AddBlazorise( builder.Services );
+AddBlazorise(builder.Services);
 
 var app = builder.Build();
 

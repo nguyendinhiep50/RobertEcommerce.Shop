@@ -25,7 +25,7 @@ public class CustomUserClient : UserManager<Rb_CustomerUser>
 
     public override async Task<IdentityResult> UpdateAsync(Rb_CustomerUser user)
     {
-        user.UpdatedBy = Guid.Parse(_user.Id);
+        user.UpdatedBy = _user.Id;
 
         return await base.UpdateAsync(user);
     }

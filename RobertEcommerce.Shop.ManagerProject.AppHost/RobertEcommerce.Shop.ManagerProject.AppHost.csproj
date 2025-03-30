@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Manager.EC\Manager.EC\Manager.EC.csproj" />
     <ProjectReference Include="..\src\Service\Identity.API\Identity.API.csproj" />
+    <ProjectReference Include="..\src\UI\Manager.EC\Manager.EC.csproj" />
   </ItemGroup>
 
 </Project>

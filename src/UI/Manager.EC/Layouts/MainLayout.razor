@@ -1,0 +1,92 @@
+﻿@using Manager.EC.Components.Layout
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Admin")]
+
+@inherits LayoutComponentBase
+
+@if (layoutType == "fixed-header")
+{
+	<Layout Sider>
+		<LayoutSider>
+			<LayoutSiderContent>
+				<SideMenu />
+			</LayoutSiderContent>
+		</LayoutSider>
+		<Layout>
+			<LayoutHeader Fixed>
+				<TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
+						 ThemeGradientChanged="@OnThemeGradientChanged"
+						 ThemeRoundedChanged="@OnThemeRoundedChanged"
+						 ThemeColorChanged="@OnThemeColorChanged"
+						 @bind-LayoutType="@layoutType" />
+			</LayoutHeader>
+			<LayoutContent Padding="Padding.Is4.OnX.Is4.FromTop">
+				@Body
+			</LayoutContent>
+		</Layout>
+	</Layout>
+}
+else if (layoutType == "fixed-header-footer-only")
+{
+	<Layout>
+		<LayoutHeader Fixed>
+			<TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
+					 ThemeGradientChanged="@OnThemeGradientChanged"
+					 ThemeRoundedChanged="@OnThemeRoundedChanged"
+					 ThemeColorChanged="@OnThemeColorChanged"
+					 @bind-LayoutType="@layoutType" />
+		</LayoutHeader>
+		<LayoutContent Padding="Padding.Is4.OnX.Is4.FromTop">
+			@Body
+		</LayoutContent>
+		<LayoutFooter Fixed>
+			<FooterMenu></FooterMenu>
+		</LayoutFooter>
+	</Layout>
+}
+else if (layoutType == "sider-with-header-on-top")
+{
+	<Layout>
+		<LayoutHeader Fixed>
+			<TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
+					 ThemeGradientChanged="@OnThemeGradientChanged"
+					 ThemeRoundedChanged="@OnThemeRoundedChanged"
+					 ThemeColorChanged="@OnThemeColorChanged"
+					 @bind-LayoutType="@layoutType" />
+		</LayoutHeader>
+		<Layout Sider>
+			<LayoutSider>
+				<LayoutSiderContent>
+					<SideMenu />
+				</LayoutSiderContent>
+			</LayoutSider>
+			<Layout>
+				<LayoutContent Padding="Padding.Is4.OnX.Is4.FromTop">
+					@Body
+				</LayoutContent>
+			</Layout>
+		</Layout>
+	</Layout>
+}
+
+
+@code {
+	private bool isFirstRender = true;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender && isFirstRender)
+		{
+			isFirstRender = false;
+
+			var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+			var user = authState.User;
+
+			if (!user.Identity?.IsAuthenticated ?? true)
+			{
+				Navigation.NavigateTo("/login");
+			}
+		}
+	}
+}

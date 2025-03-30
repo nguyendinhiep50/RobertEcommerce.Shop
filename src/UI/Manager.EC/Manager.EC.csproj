@@ -27,12 +27,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\Share\RobertEcommerce.Shop.EventBusRabbitMQ\RobertEcommerce.Shop.EventBusRabbitMQ.csproj" />
-	  <ProjectReference Include="..\..\src\Share\RobertEcommerce.Shop.ServiceDefaults\RobertEcommerce.Shop.ServiceDefaults.csproj" />
+	  <Folder Include="Extensions\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Extensions\" />
+	  <ProjectReference Include="..\..\Share\RobertEcommerce.Shop.EventBusRabbitMQ\RobertEcommerce.Shop.EventBusRabbitMQ.csproj" />
+	  <ProjectReference Include="..\..\Share\RobertEcommerce.Shop.ServiceDefaults\RobertEcommerce.Shop.ServiceDefaults.csproj" />
 	</ItemGroup>
 
 </Project>

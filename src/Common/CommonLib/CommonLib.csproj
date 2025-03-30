@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageId>CommonLib</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>YourName</Authors>
+		<Company>YourCompany</Company>
+		<Description>Thư viện tiện ích dùng chung</Description>
+		<PackageOutputPath>./nupkg</PackageOutputPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
+	</ItemGroup>
+
+</Project>

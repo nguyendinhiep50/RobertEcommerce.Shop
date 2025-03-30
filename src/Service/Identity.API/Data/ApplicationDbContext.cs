@@ -1,5 +1,4 @@
-﻿using Identity.API.Identity;
-using Identity.API.Infrastructure.Identity;
+﻿using Identity.API.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Reflection;
 
@@ -10,7 +9,7 @@ public class ApplicationDbContext
         ApplicationUser,
         ApplicationRole,
         ApplicationUserRole,
-        Guid>,
+        string>,
     IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }

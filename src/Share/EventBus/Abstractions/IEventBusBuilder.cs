@@ -2,5 +2,5 @@
 
 public interface IEventBusBuilder
 {
-    public IServiceCollection Services { get; }
+	public IServiceCollection Services { get; }
 }

@@ -23,31 +23,31 @@ public abstract class BaseTodoItems : ComponentBase
         {
             var query = from t in todos select t;
 
-            if ( filter == Filter.Active )
+            if (filter == Filter.Active)
                 query = from q in query where !q.Completed select q;
 
-            if ( filter == Filter.Completed )
+            if (filter == Filter.Completed)
                 query = from q in query where q.Completed select q;
 
             return query;
         }
     }
 
-    protected void SetFilter( Filter filter )
+    protected void SetFilter(Filter filter)
     {
         this.filter = filter;
     }
 
-    protected void OnCheckAll( bool isChecked )
+    protected void OnCheckAll(bool isChecked)
     {
-        todos.ForEach( x => x.Completed = isChecked );
+        todos.ForEach(x => x.Completed = isChecked);
     }
 
     protected async Task OnAddTodo()
     {
-        if ( await validations!.ValidateAll() )
+        if (await validations!.ValidateAll())
         {
-            todos.Add( new() { Description = description } );
+            todos.Add(new() { Description = description });
             description = null;
 
             await validations.ClearAll();
@@ -56,12 +56,12 @@ public abstract class BaseTodoItems : ComponentBase
 
     protected void OnClearCompleted()
     {
-        todos.RemoveAll( x => x.Completed );
+        todos.RemoveAll(x => x.Completed);
         filter = Filter.All;
     }
 
-    protected Task OnTodoStatusChanged( bool isChecked )
+    protected Task OnTodoStatusChanged(bool isChecked)
     {
-        return InvokeAsync( StateHasChanged );
+        return InvokeAsync(StateHasChanged);
     }
 }

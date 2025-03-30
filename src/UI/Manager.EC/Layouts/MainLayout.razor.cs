@@ -15,51 +15,51 @@ public partial class MainLayout
 
     protected override async Task OnInitializedAsync()
     {
-        await SelectCulture( "en-US" );
+        await SelectCulture("en-US");
 
         await base.OnInitializedAsync();
     }
 
-    private Task SelectCulture( string name )
+    private Task SelectCulture(string name)
     {
-        LocalizationService!.ChangeLanguage( name );
+        LocalizationService!.ChangeLanguage(name);
 
         return Task.CompletedTask;
     }
 
-    Task OnThemeEnabledChanged( bool value )
+    Task OnThemeEnabledChanged(bool value)
     {
-        if ( Theme is null )
+        if (Theme is null)
             return Task.CompletedTask;
 
         Theme.Enabled = value;
 
-        return InvokeAsync( Theme.ThemeHasChanged );
+        return InvokeAsync(Theme.ThemeHasChanged);
     }
 
-    Task OnThemeGradientChanged( bool value )
+    Task OnThemeGradientChanged(bool value)
     {
-        if ( Theme is null )
+        if (Theme is null)
             return Task.CompletedTask;
 
         Theme.IsGradient = value;
 
-        return InvokeAsync( Theme.ThemeHasChanged );
+        return InvokeAsync(Theme.ThemeHasChanged);
     }
 
-    Task OnThemeRoundedChanged( bool value )
+    Task OnThemeRoundedChanged(bool value)
     {
-        if ( Theme is null )
+        if (Theme is null)
             return Task.CompletedTask;
 
         Theme.IsRounded = value;
 
-        return InvokeAsync( Theme.ThemeHasChanged );
+        return InvokeAsync(Theme.ThemeHasChanged);
     }
 
-    Task OnThemeColorChanged( string value )
+    Task OnThemeColorChanged(string value)
     {
-        if ( Theme is null )
+        if (Theme is null)
             return Task.CompletedTask;
 
         Theme.ColorOptions ??= new();
@@ -81,7 +81,7 @@ public partial class MainLayout
 
         Theme.SpinKitOptions.Color = value;
 
-        return InvokeAsync( Theme.ThemeHasChanged );
+        return InvokeAsync(Theme.ThemeHasChanged);
     }
 
 
