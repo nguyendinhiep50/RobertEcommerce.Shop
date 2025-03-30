@@ -1,4 +1,4 @@
-﻿using Identity.API.Infrastructure;
+﻿using Identity.API.Data;
 
 public static class Extensions
 {
@@ -8,11 +8,11 @@ public static class Extensions
         // is being invoked from build-time OpenAPI generation
         if (builder.Environment.IsBuild())
         {
-            builder.Services.AddDbContext<IdentityContext>();
+            builder.Services.AddDbContext<ApplicationDbContext>();
             return;
         }
 
-        builder.AddNpgsqlDbContext<IdentityContext>("catalogdb", configureDbContextOptions: dbContextOptionsBuilder =>
+        builder.AddNpgsqlDbContext<ApplicationDbContext>("identityDb", configureDbContextOptions: dbContextOptionsBuilder =>
         {
             dbContextOptionsBuilder.UseNpgsql(builder =>
             {

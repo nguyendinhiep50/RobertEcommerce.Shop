@@ -1,4 +1,5 @@
-﻿using Identity.API.Identities.Dtos;
+﻿using Asp.Versioning.Conventions;
+using Identity.API.Identities.Dtos;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,10 +8,19 @@ public static class IdentityApi
 {
     public static IEndpointRouteBuilder MapIdentityApi(this IEndpointRouteBuilder app)
     {
-        var api = app.MapGroup("api/identity");
+        // Tạo tập phiên bản API
+        var apiVersionSet = app.NewApiVersionSet()
+            .HasApiVersion(1, 0)
+            .ReportApiVersions()
+            .Build();
+
+        // Nhóm API có versioning
+        var api = app.MapGroup("api/identity")
+            .WithApiVersionSet(apiVersionSet)
+            .HasApiVersion(1, 0);
 
         api.MapGet("/items/by", GetItemsByIds)
-            .WithName("BatchGetItems")
+            .WithName("GetItemsByIds")
             .WithSummary("Batch get catalog items")
             .WithDescription("Get multiple items from the catalog")
             .WithTags("Items");
@@ -19,7 +29,6 @@ public static class IdentityApi
     }
 
     [ProducesResponseType<List<LoginRequest>>(StatusCodes.Status200OK, "application/json")]
-    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public static async Task<Results<Ok<List<LoginRequest>>, NotFound>> GetItemsByIds([FromQuery] int[] ids)
     {
         if (ids == null || ids.Length == 0)

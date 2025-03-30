@@ -5,19 +5,19 @@ var builder = DistributedApplication.CreateBuilder(args);
 builder.AddForwardedHeaders();
 
 var redis = builder.AddRedis("redisEcommerce")
-    .WithBindMount(@"D:\Docker_volumes\ecommerce_shop", "/var/lib/redis")
+    .WithBindMount(@"D:\Docker_volumes\ecommerce_shop\redis", "/var/lib/redis")
     .WithLifetime(ContainerLifetime.Persistent);
 
 var rabbitMq = builder.AddRabbitMQ("eventbusEcommerce")
-    .WithBindMount(@"D:\Docker_volumes\ecommerce_shop", "/var/lib/rabbitmq")
+    .WithBindMount(@"D:\Docker_volumes\ecommerce_shop\rabbitmq", "/var/lib/rabbitmq")
     .WithLifetime(ContainerLifetime.Persistent);
 
 var postgres = builder.AddPostgres("postgresEcommerce")
-    .WithBindMount(@"D:\Docker_volumes\ecommerce_shop", "/var/lib/postgresql/data")
+    .WithBindMount(@"D:\Docker_volumes\ecommerce_shop\postgres", "/var/lib/postgresql/data")
     .WithPgWeb(container => container
-        .WithBindMount(@"D:\Docker_volumes\ecommerce_shop", "/var/lib/pgadmin")
+        .WithBindMount(@"D:\Docker_volumes\ecommerce_shop\pgadmin", "/var/lib/pgadmin")
         .WithLifetime(ContainerLifetime.Persistent))
-    .WithImageTag("latest")
+    .WithImageTag("0.16.2")
     .WithImage("ankane/pgvector")
     .WithLifetime(ContainerLifetime.Persistent);
 
@@ -25,22 +25,20 @@ var catalogDb = postgres.AddDatabase("catalogdb");
 var identityDb = postgres.AddDatabase("identitydb");
 var orderDb = postgres.AddDatabase("orderingdb");
 var webhooksDb = postgres.AddDatabase("webhooksdb");
+var serviceCommonDb = postgres.AddDatabase("servicecommondb");
 
 var launchProfileName = ShouldUseHttpForEndpoints() ? "http" : "https";
 
 // Services
-//var identityApi = builder.AddProject<Projects.Identity_API>("identity-api", launchProfileName)
-//    .WithExternalHttpEndpoints()
-//    .WithReference(identityDb);
+var identityApi = builder.AddProject<Projects.Identity_API>("identity-api", launchProfileName)
+    .WithExternalHttpEndpoints()
+    .WithReference(identityDb);
 
-//var identityEndpoint = identityApi.GetEndpoint(launchProfileName);
+
 
 var basketApi = builder.AddProject<Projects.Manager_EC>("manager-ec")
     .WithReference(redis)
     .WithReference(rabbitMq).WaitFor(rabbitMq);
-    //.WithEnvironment("Identity__Url", identityEndpoint);
-
-builder.AddProject<Projects.Identity_API>("identity-api");
     //.WithEnvironment("Identity__Url", identityEndpoint);
 
 builder.Build().Run();
