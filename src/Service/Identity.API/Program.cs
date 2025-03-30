@@ -7,8 +7,8 @@ builder.Services.AddProblemDetails();
 builder.Services.AddMigration<ApplicationDbContext, UsersSeed>();
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+	.AddEntityFrameworkStores<ApplicationDbContext>()
+	.AddDefaultTokenProviders();
 
 var withApiVersioning = builder.Services.AddApiVersioning();
 
