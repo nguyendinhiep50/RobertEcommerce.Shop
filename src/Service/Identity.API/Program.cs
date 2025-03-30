@@ -3,6 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder.AddApplicationServices();
 builder.Services.AddProblemDetails();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddMigration<ApplicationDbContext, UsersSeed>();
 

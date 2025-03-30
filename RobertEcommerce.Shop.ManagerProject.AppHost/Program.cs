@@ -5,21 +5,21 @@ var builder = DistributedApplication.CreateBuilder(args);
 builder.AddForwardedHeaders();
 
 var redis = builder.AddRedis("redisEcommerce")
-    .WithBindMount(@"D:\Docker_volumes\ecommerce_shop\redis", "/var/lib/redis")
-    .WithLifetime(ContainerLifetime.Persistent);
+	.WithBindMount(@"D:\Docker_volumes\ecommerce_shop\redis", "/var/lib/redis")
+	.WithLifetime(ContainerLifetime.Persistent);
 
 var rabbitMq = builder.AddRabbitMQ("eventbusEcommerce")
-    .WithBindMount(@"D:\Docker_volumes\ecommerce_shop\rabbitmq", "/var/lib/rabbitmq")
-    .WithLifetime(ContainerLifetime.Persistent);
+	.WithBindMount(@"D:\Docker_volumes\ecommerce_shop\rabbitmq", "/var/lib/rabbitmq")
+	.WithLifetime(ContainerLifetime.Persistent);
 
 var postgres = builder.AddPostgres("postgresEcommerce")
-    .WithBindMount(@"D:\Docker_volumes\ecommerce_shop\postgres", "/var/lib/postgresql/data")
-    .WithPgWeb(container => container
-             .WithBindMount(@"D:\Docker_volumes\ecommerce_shop\pgadmin", "/var/lib/pgadmin")
-        .WithLifetime(ContainerLifetime.Persistent))
-    .WithImageTag("0.16.2")
-    .WithImage("ankane/pgvector")
-    .WithLifetime(ContainerLifetime.Persistent);
+	.WithBindMount(@"D:\Docker_volumes\ecommerce_shop\postgres", "/var/lib/postgresql/data")
+	.WithPgWeb(container => container
+			 .WithBindMount(@"D:\Docker_volumes\ecommerce_shop\pgadmin", "/var/lib/pgadmin")
+		.WithLifetime(ContainerLifetime.Persistent))
+	.WithImageTag("0.16.2")
+	.WithImage("ankane/pgvector")
+	.WithLifetime(ContainerLifetime.Persistent);
 
 var catalogDb = postgres.AddDatabase("catalogdb");
 var identityDb = postgres.AddDatabase("identitydb");
@@ -31,15 +31,12 @@ var launchProfileName = ShouldUseHttpForEndpoints() ? "http" : "https";
 
 // Services
 var identityApi = builder.AddProject<Projects.Identity_API>("identity-api", launchProfileName)
-    .WithExternalHttpEndpoints()
-    .WithReference(identityDb);
-
-
+	.WithExternalHttpEndpoints()
+	.WithReference(identityDb);
 
 var basketApi = builder.AddProject<Projects.Manager_EC>("manager-ec")
-    .WithReference(redis)
-    .WithReference(rabbitMq).WaitFor(rabbitMq);
-//.WithEnvironment("Identity__Url", identityEndpoint);
+	.WithReference(redis)
+	.WithReference(rabbitMq).WaitFor(rabbitMq);
 
 builder.Build().Run();
 
@@ -48,9 +45,9 @@ builder.Build().Run();
 // are doing this for ease of running the Playwright tests in CI.
 static bool ShouldUseHttpForEndpoints()
 {
-    const string EnvVarName = "ESHOP_USE_HTTP_ENDPOINTS";
-    var envValue = Environment.GetEnvironmentVariable(EnvVarName);
+	const string EnvVarName = "ESHOP_USE_HTTP_ENDPOINTS";
+	var envValue = Environment.GetEnvironmentVariable(EnvVarName);
 
-    // Attempt to parse the environment variable value; return true if it's exactly "1".
-    return int.TryParse(envValue, out int result) && result == 1;
+	// Attempt to parse the environment variable value; return true if it's exactly "1".
+	return int.TryParse(envValue, out int result) && result == 1;
 }

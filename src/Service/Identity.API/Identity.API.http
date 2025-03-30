@@ -2,11 +2,3 @@
 @ApiVersion = 1.0
 
 GET {{Identity.API_HostAddress}}/openapi/v1.json
-
-###
-
-GET {{Identity.API_HostAddress}}/api/catalog/items?api-version={{ApiVersion}}
-
-
-###
-GET{{Identity.API_HostAddress}}/api/identity/items/by?ids=1&ids=2&ids=3

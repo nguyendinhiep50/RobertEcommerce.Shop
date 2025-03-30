@@ -6,3 +6,4 @@ global using Identity.API.apis;
 global using Identity.API.Data;
 global using Identity.API.Identity;
 global using Shared.Constants;
+global using RobertEcommerce.Shop.ServiceDefaults.Utility;

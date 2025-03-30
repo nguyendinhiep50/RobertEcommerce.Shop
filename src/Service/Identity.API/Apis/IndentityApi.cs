@@ -1,5 +1,7 @@
 ﻿using Asp.Versioning.Conventions;
+using Identity.API.API.Model;
 using Identity.API.Identities.Dtos;
+using Identity.API.Identities.Users;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,13 +10,11 @@ public static class IdentityApi
 {
 	public static IEndpointRouteBuilder MapIdentityApi(this IEndpointRouteBuilder app)
 	{
-		// Tạo tập phiên bản API
 		var apiVersionSet = app.NewApiVersionSet()
 			.HasApiVersion(1, 0)
 			.ReportApiVersions()
 			.Build();
 
-		// Nhóm API có versioning
 		var api = app.MapGroup("api/identity")
 			.WithApiVersionSet(apiVersionSet)
 			.HasApiVersion(1, 0);
@@ -40,4 +40,13 @@ public static class IdentityApi
 
 		return TypedResults.Ok(items);
 	}
+
+	//[ProducesResponseType<Ok<PaginatedItems<ApplicationUserDto>>>(StatusCodes.Status200OK, "application/json")]
+	//public static async Task<Ok<PaginatedItems<ApplicationUserDto>>> GetListUser(
+	//	[AsParameters] PaginationRequest paginationRequest)
+	//{
+	//	var pageSize = paginationRequest.PageSize;
+	//	var pageIndex = paginationRequest.PageIndex;
+	//	return TypedResults.Ok(new PaginatedItems<ApplicationUserDto>(pageIndex, pageSize, totalItems, itemsOnPage));
+	//}
 }
