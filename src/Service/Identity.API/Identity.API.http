@@ -1,4 +1,0 @@
-﻿@Identity.API_HostAddress = http://localhost:7056
-@ApiVersion = 1.0
-
-GET {{Identity.API_HostAddress}}/openapi/v1.json

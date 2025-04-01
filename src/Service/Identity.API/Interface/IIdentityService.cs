@@ -1,7 +1,4 @@
-﻿using Identity.API.Identities.Dtos;
-using Identity.API.Identities.Users;
-
-namespace Identity.API.Interface;
+﻿namespace Identity.API.Interface;
 
 public interface IIdentityService
 {
@@ -38,5 +35,9 @@ public interface IIdentityService
 
 	#region Check Exist Account
 	Task<bool> IsExistAccount(string email, string? typeAccount);
+	#endregion
+
+	#region Get User EC
+	Task<List<ApplicationUserDto>> GetListUserByAdmin();
 	#endregion
 }

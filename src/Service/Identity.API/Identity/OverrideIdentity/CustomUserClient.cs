@@ -1,5 +1,4 @@
-﻿using Identity.API.Interface;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 
 namespace Identity.API.Identity.OverrideIdentity;
 

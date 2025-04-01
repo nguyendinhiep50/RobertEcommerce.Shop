@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
-using Identity.API.Identities.Dtos;
-using Identity.API.Identities.Users;
 using Identity.API.Identity.OverrideIdentity;
-using Identity.API.Interface;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Identity.API.Identity;
+namespace Identity.API.Services;
 
 public class IdentityService : IIdentityService
 {
@@ -398,6 +395,19 @@ public class IdentityService : IIdentityService
 			default:
 				return false;
 		}
+	}
+	#endregion
+
+	#region Get List User By Admin
+	/// <summary>
+	/// Get list user by admin
+	/// </summary>
+	/// <param name="userId"></param>
+	/// <returns>Infomation use</returns>
+	public async Task<List<ApplicationUserDto>> GetListUserByAdmin()
+	{
+		var listUser = await _userManager.Users.ToListAsync();
+		return _mapper.Map<List<ApplicationUserDto>>(listUser);
 	}
 	#endregion
 }

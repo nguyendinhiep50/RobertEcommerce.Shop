@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Identity.API.Identity.OverrideIdentity;
+using Identity.API.Interface;
+using Identity.API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
@@ -24,6 +28,8 @@ public static class Extensions
 
 	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
 	{
+		services.AddMigration<ApplicationDbContext, UsersSeed>();
+
 		services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 		services.AddAuthentication(options =>
@@ -43,7 +49,55 @@ public static class Extensions
 			};
 		});
 
+		services.AddScoped<CustomUserManager>(provider =>
+		{
+			var userStore = provider.GetRequiredService<IUserStore<ApplicationUser>>();
+			var optionsAccessor = provider.GetRequiredService<IOptions<IdentityOptions>>();
+			var passwordHasher = provider.GetRequiredService<IPasswordHasher<ApplicationUser>>();
+			var userValidators = provider.GetServices<IUserValidator<ApplicationUser>>();
+			var passwordValidators = provider.GetServices<IPasswordValidator<ApplicationUser>>();
+			var keyNormalizer = provider.GetRequiredService<ILookupNormalizer>();
+			var errors = provider.GetRequiredService<IdentityErrorDescriber>();
+			var services = provider;
+			var logger = provider.GetRequiredService<ILogger<UserManager<ApplicationUser>>>();
+			var user = provider.GetRequiredService<IUser>();
+			return new CustomUserManager(userStore, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger, user);
+		});
+
+		services.AddScoped<CustomUserClient>(provider =>
+		{
+			var userStore = provider.GetRequiredService<IUserStore<Rb_CustomerUser>>();
+			var optionsAccessor = provider.GetRequiredService<IOptions<IdentityOptions>>();
+			var passwordHasher = provider.GetRequiredService<IPasswordHasher<Rb_CustomerUser>>();
+			var userValidators = provider.GetServices<IUserValidator<Rb_CustomerUser>>();
+			var passwordValidators = provider.GetServices<IPasswordValidator<Rb_CustomerUser>>();
+			var keyNormalizer = provider.GetRequiredService<ILookupNormalizer>();
+			var errors = provider.GetRequiredService<IdentityErrorDescriber>();
+			var services = provider;
+			var logger = provider.GetRequiredService<ILogger<UserManager<Rb_CustomerUser>>>();
+			var user = provider.GetRequiredService<IUser>();
+			return new CustomUserClient(userStore, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger, user);
+		});
+
+		services.AddIdentity<ApplicationUser, ApplicationRole>()
+			.AddEntityFrameworkStores<ApplicationDbContext>()
+			.AddDefaultTokenProviders();
+
+		services.AddScoped<IIdentityService, IdentityService>();
+		services.AddAuthorization();
+		services.AddScoped<IUser, CurrentUser>();
+
+		services.AddIdentityCore<ApplicationUser>(options => { })
+			.AddRoles<ApplicationRole>()
+			.AddEntityFrameworkStores<ApplicationDbContext>()
+			.AddSignInManager<SignInManager<ApplicationUser>>()
+			.AddDefaultTokenProviders();
+
+		services.AddIdentityCore<Rb_CustomerUser>(options => { })
+			.AddEntityFrameworkStores<ApplicationDbContext>()
+			.AddSignInManager<SignInManager<Rb_CustomerUser>>()
+			.AddDefaultTokenProviders();
+
 		return services;
 	}
-
 }

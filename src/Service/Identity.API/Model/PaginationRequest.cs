@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Identity.API.API.Model;
+namespace Identity.API.Model;
 
 public record PaginationRequest(
 	[property: Description("Number of items to return in a single page of results")]

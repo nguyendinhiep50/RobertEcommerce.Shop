@@ -31,7 +31,6 @@ app.MapFallbackToPage("/_Host");
 
 app.Run();
 
-
 void AddBlazorise(IServiceCollection services)
 {
     services

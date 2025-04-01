@@ -1,4 +1,4 @@
-﻿namespace Identity.API.Identities.Users
+﻿namespace Identity.API.Model.Users
 {
 	public class ApplicationUserDto : UserUpdateDto
 	{

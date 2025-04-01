@@ -5,12 +5,6 @@ builder.AddApplicationServices();
 builder.Services.AddProblemDetails();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
-builder.Services.AddMigration<ApplicationDbContext, UsersSeed>();
-
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
-	.AddEntityFrameworkStores<ApplicationDbContext>()
-	.AddDefaultTokenProviders();
-
 var withApiVersioning = builder.Services.AddApiVersioning();
 
 builder.AddDefaultOpenApi(withApiVersioning);
