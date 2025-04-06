@@ -9,12 +9,12 @@ public class UsersSeed(ILogger<UsersSeed> logger, UserManager<ApplicationUser> u
 		{
 			alice = new ApplicationUser
 			{
-				Id = IdFormatter.FormatProductId(Constant.CONSTANT_KEY_USER_ID, 1),
+				Id = IdFormatter.FormatId(Constant.CONSTANT_KEY_USER_ID, 1),
 				UserName = "Robert",
 				Email = "Robert@email.com",
 				EmailConfirmed = true,
 				Name = "Robert Nguyen",
-				CreatedDate = DateTime.Now,
+				CreatedDate = DateTime.UtcNow,
 				CreatedBy = "Admin"
 			};
 

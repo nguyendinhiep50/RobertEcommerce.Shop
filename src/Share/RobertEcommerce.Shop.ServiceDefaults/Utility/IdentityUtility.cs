@@ -1,16 +1,19 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using RobertEcommerce.Shop.ServiceDefaults.Constants;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
-namespace Identity.API.Identity;
+namespace RobertEcommerce.Shop.ServiceDefaults.Utility;
+
 public static class IdentityUtility
 {
 	public static string GenerateToken<T>(
 		T user,
+		IList<string> roles,
 		string secretKey,
 		string idUser,
-		string userName,
-		IList<string>? roles = null)
+		string userName)
 	{
 		if (user == null) throw new ArgumentNullException(nameof(user));
 
@@ -20,7 +23,7 @@ public static class IdentityUtility
 			new SymmetricSecurityKey(key),
 			SecurityAlgorithms.HmacSha256Signature);
 
-		if (roles == null && typeof(T) == typeof(Rb_CustomerUser))
+		if (roles == null)
 		{
 			roles = new List<string>();
 			roles.Add(Roles.Customer);
@@ -53,17 +56,5 @@ public static class IdentityUtility
 		}
 
 		return claims;
-	}
-
-	public static string? GetUserIdFromToken(string token)
-	{
-		var handler = new JwtSecurityTokenHandler();
-
-		if (!handler.CanReadToken(token))
-			return null;
-
-		var jwtToken = handler.ReadJwtToken(token);
-
-		return jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 	}
 }

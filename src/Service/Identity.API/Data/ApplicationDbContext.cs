@@ -1,5 +1,6 @@
 ﻿using Identity.API.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Reflection;
 
 namespace Identity.API.Data;
