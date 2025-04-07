@@ -66,9 +66,6 @@ public static class IdentityApi
 		#endregion
 
 		#region Token
-		api.MapPost("/generate-jwt", GenerateJwtToken)
-			.WithName("GenerateJwtToken");
-
 		api.MapPost("/generate-email-confirm", GenerateEmailConfirmToken)
 			.WithName("GenerateEmailConfirmToken");
 
@@ -93,14 +90,13 @@ public static class IdentityApi
 			.WithName("IsInRole");
 		#endregion
 
-		#region Login
-		api.MapPost("/login", GenerateJwtToken)
-			.WithName("GenerateJwtToken");
+		#region OAuthService
 
 		#endregion
 		return app;
 	}
 
+	#region Get
 	[ProducesResponseType<Ok<PaginatedItems<ApplicationUserDto>>>(StatusCodes.Status200OK, "application/json")]
 	public static async Task<Ok<PaginatedItems<ApplicationUser>>> GetListUserByAdmin(
 		[FromServices] IIdentityService services,
@@ -174,7 +170,9 @@ public static class IdentityApi
 		var roles = await service.GetRolesAsync(user);
 		return Results.Ok(roles);
 	}
+	#endregion
 
+	#region Create User
 	public static async Task<IResult> CreateUser(
 		[FromServices] IIdentityService service,
 		ApplicationUser user,
@@ -185,7 +183,9 @@ public static class IdentityApi
 			? Results.Ok()
 			: Results.BadRequest(result.Errors);
 	}
+	#endregion
 
+	#region Update
 	public static async Task<IResult> UpdateUser(
 		[FromServices] IIdentityService service,
 		ApplicationUser user)
@@ -205,7 +205,9 @@ public static class IdentityApi
 			? Results.Ok()
 			: Results.BadRequest("Failed to update password");
 	}
+	#endregion
 
+	#region Delete
 	public static async Task<IResult> DeleteUser(
 		[FromServices] IIdentityService service,
 		string userId)
@@ -213,7 +215,9 @@ public static class IdentityApi
 		var result = await service.DeleteUserAsync(userId);
 		return result.Succeeded ? Results.Ok() : Results.BadRequest(result.Errors);
 	}
+	#endregion
 
+	#region Authentication
 	public static async Task<IResult> Authenticate(
 		[FromServices] IIdentityService service,
 		string email,
@@ -224,21 +228,15 @@ public static class IdentityApi
 			? Results.Ok(token)
 			: Results.Unauthorized();
 	}
+	#endregion
 
+	#region Token
 	public static async Task<IResult> ValidateToken(
 		[FromServices] IIdentityService service,
 		string token)
 	{
 		var valid = await service.ValidateTokenAsync(token);
 		return Results.Ok(valid);
-	}
-
-	public static async Task<IResult> GenerateJwtToken(
-		[FromServices] IIdentityService service,
-		ApplicationUser user)
-	{
-		var token = await service.GenerateJwtTokenAsync(user);
-		return Results.Ok(token);
 	}
 
 	public static async Task<IResult> GenerateEmailConfirmToken(
@@ -275,7 +273,9 @@ public static class IdentityApi
 		var result = await service.ResetPasswordAsync(email, token, newPassword);
 		return result.Succeeded ? Results.Ok() : Results.BadRequest(result.Errors);
 	}
+	#endregion
 
+	#region Role Management
 	public static async Task<IResult> AddToRoles(
 		[FromServices] IIdentityService service,
 		ApplicationUser user,
@@ -306,4 +306,5 @@ public static class IdentityApi
 		var isInRole = await service.IsInRoleAsync(user, role);
 		return Results.Ok(isInRole);
 	}
+	#endregion
 }

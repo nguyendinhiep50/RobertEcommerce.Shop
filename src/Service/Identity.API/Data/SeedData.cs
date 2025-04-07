@@ -1,8 +1,8 @@
 ﻿namespace Identity.API.Data;
 
-public class UsersSeed(ILogger<UsersSeed> logger, UserManager<ApplicationUser> userManager) : IDbSeeder<ApplicationDbContext>
+public class SeedData(ILogger<SeedData> logger, UserManager<ApplicationUser> userManager) : IDbSeeder<ApplicationDbContext>
 {
-	public async Task SeedAsync(ApplicationDbContext context)
+	public async Task UserSeedAsync(ApplicationDbContext context)
 	{
 		var alice = await userManager.FindByNameAsync("Robert");
 		if (alice == null)
@@ -15,7 +15,7 @@ public class UsersSeed(ILogger<UsersSeed> logger, UserManager<ApplicationUser> u
 				EmailConfirmed = true,
 				Name = "Robert Nguyen",
 				CreatedDate = DateTime.UtcNow,
-				CreatedBy = "Admin"
+				CreatedBy = "Admin",
 			};
 
 			var result = userManager.CreateAsync(alice, "Pass123$").Result;

@@ -1,6 +1,5 @@
 ﻿using Identity.API.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Reflection;
 
 namespace Identity.API.Data;
@@ -35,7 +34,19 @@ public class ApplicationDbContext
 
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
+		builder.Entity<ApplicationUser>()
+			.HasIndex(u => u.Email)
+			.HasDatabaseName("IX_ApplicationUser_Email")
+			.IsUnique(false);
+
+		builder.Entity<Rb_CustomerUser>()
+			.HasIndex(u => u.Email)
+			.HasDatabaseName("IX_Rb_CustomerUser_Email")
+			.IsUnique(false);
+
 		base.OnModelCreating(builder);
 		builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+		DataSeeder.Seed(builder);
+
 	}
 }

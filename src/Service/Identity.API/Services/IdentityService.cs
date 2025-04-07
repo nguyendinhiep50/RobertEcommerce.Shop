@@ -242,9 +242,5 @@ public class IdentityService : IIdentityService
 	}
 
 	#endregion
-
-	#region Login
-
-	#endregion
 }
 

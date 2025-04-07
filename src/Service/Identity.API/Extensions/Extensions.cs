@@ -26,9 +26,11 @@ public static class Extensions
 		});
 	}
 
-	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+	public static IServiceCollection AddInfrastructureServices(
+		this IServiceCollection services,
+		IConfiguration configuration)
 	{
-		services.AddMigration<ApplicationDbContext, UsersSeed>();
+		services.AddMigration<ApplicationDbContext, SeedData>();
 
 		services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

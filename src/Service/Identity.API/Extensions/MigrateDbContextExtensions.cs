@@ -25,7 +25,7 @@ internal static class MigrateDbContextExtensions
 		where TDbSeeder : class, IDbSeeder<TContext>
 	{
 		services.AddScoped<IDbSeeder<TContext>, TDbSeeder>();
-		return services.AddMigration<TContext>((context, sp) => sp.GetRequiredService<IDbSeeder<TContext>>().SeedAsync(context));
+		return services.AddMigration<TContext>((context, sp) => sp.GetRequiredService<IDbSeeder<TContext>>().UserSeedAsync(context));
 	}
 
 	private static async Task MigrateDbContextAsync<TContext>(this IServiceProvider services, Func<TContext, IServiceProvider, Task> seeder) where TContext : DbContext
@@ -89,5 +89,5 @@ internal static class MigrateDbContextExtensions
 }
 public interface IDbSeeder<in TContext> where TContext : DbContext
 {
-	Task SeedAsync(TContext context);
+	Task UserSeedAsync(TContext context);
 }
