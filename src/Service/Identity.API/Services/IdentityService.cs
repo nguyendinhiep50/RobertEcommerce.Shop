@@ -102,10 +102,12 @@ public class IdentityService : IIdentityService
 	#region Create
 
 	public async Task<IdentityResult> CreateUserAsync(
-		ApplicationUser user,
+		UserCreateDto userDto,
 		string password,
 		IEnumerable<string>? roles = null)
 	{
+		var user = _mapper.Map<ApplicationUser>(userDto);
+
 		var lastUser = await _userManager.Users
 			.OrderByDescending(u => u.CreatedDate)
 			.FirstOrDefaultAsync();

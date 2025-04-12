@@ -1,16 +1,8 @@
-﻿namespace Identity.API.Model.Users
+﻿using AutoMapper;
+
+namespace Identity.API.Model.Users
 {
 	public class UserBaseDto
-	{
-		public string Id { get; set; }
-		public bool Status { get; set; }
-		public DateTimeOffset CreatedDate { get; set; }
-		public DateTimeOffset? UpdatedDate { get; set; }
-		public string? CreatedBy { get; set; }
-		public string? UpdatedBy { get; set; }
-	}
-
-	public class UserDto : UserBaseDto
 	{
 		public string UserKbn { get; set; } = string.Empty;
 		public string Name { get; set; } = string.Empty;
@@ -36,15 +28,21 @@
 		public string UserManagementLevelId { get; set; } = string.Empty;
 		public int? OrderCountOrderRealtime { get; set; }
 		public string ReferredUserId { get; set; } = string.Empty;
+		public bool Status { get; set; }
+		public DateTimeOffset CreatedDate { get; set; }
+		public DateTimeOffset? UpdatedDate { get; set; }
+		public string? CreatedBy { get; set; }
+		public string? UpdatedBy { get; set; }
 	}
 
-	public class UserCreateDto : UserDto
+	public class UserCreateDto : UserBaseDto
 	{
 		public string? Password { get; set; }
 	}
 
 	public class UserUpdateDto
 	{
+		public string Id { get; set; } = string.Empty;
 		public string? Name { get; set; }
 		public string? UserName { get; set; }
 		public string? Email { get; set; }
@@ -67,5 +65,21 @@
 		public string BirthMonth { get; set; } = string.Empty;
 		public string BirthDay { get; set; } = string.Empty;
 		public string MailFlg { get; set; } = string.Empty;
+	}
+
+	public class UserDto : UserBaseDto
+	{
+		public class UserProfile : Profile
+		{
+			public UserProfile()
+			{
+				CreateMap<UserDto, ApplicationUser>();
+				CreateMap<ApplicationUser, UserDto>();
+				CreateMap<UserUpdateDto, ApplicationUser>();
+				CreateMap<ApplicationUser, UserUpdateDto>();
+				CreateMap<UserCreateDto, ApplicationUser>();
+				CreateMap<ApplicationUser, UserCreateDto>();
+			}
+		}
 	}
 }

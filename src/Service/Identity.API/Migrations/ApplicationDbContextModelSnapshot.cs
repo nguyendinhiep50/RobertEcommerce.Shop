@@ -56,6 +56,30 @@ namespace Identity.API.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Addr")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Addr1")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Addr2")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("BirthDay")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("BirthMonth")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("BirthYear")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
@@ -66,6 +90,9 @@ namespace Identity.API.Migrations
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("DateLastLoggedin")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -73,13 +100,37 @@ namespace Identity.API.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Fax")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("MailFlg")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MemberRankId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name1")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name2")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NickName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -91,6 +142,9 @@ namespace Identity.API.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<int?>("OrderCountOrderRealtime")
+                        .HasColumnType("integer");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
@@ -100,7 +154,15 @@ namespace Identity.API.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("ReferredUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Sex")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("Status")
@@ -115,11 +177,22 @@ namespace Identity.API.Migrations
                     b.Property<DateTimeOffset?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("UserKbn")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserManagementLevelId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .HasDatabaseName("IX_ApplicationUser_Email");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -315,6 +388,9 @@ namespace Identity.API.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .HasDatabaseName("IX_Rb_CustomerUser_Email");
 
                     b.ToTable("Rb_CustomerUsers");
                 });

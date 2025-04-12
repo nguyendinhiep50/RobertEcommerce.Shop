@@ -22,7 +22,7 @@ public interface IIdentityService
 	#endregion
 
 	#region Create
-	Task<IdentityResult> CreateUserAsync(ApplicationUser user, string password, IEnumerable<string>? roles = null);
+	Task<IdentityResult> CreateUserAsync(UserCreateDto user, string password, IEnumerable<string>? roles = null);
 
 	Task<bool> CreateUserWithEmailConfirmationAsync(ApplicationUser user, string password);
 	#endregion

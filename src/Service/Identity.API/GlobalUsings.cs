@@ -11,3 +11,4 @@ global using RobertEcommerce.Shop.ServiceDefaults;
 global using RobertEcommerce.Shop.ServiceDefaults.Utility;
 global using Shared.Constants;
 global using System.Security.Claims;
+global using Identity.API.Apis;

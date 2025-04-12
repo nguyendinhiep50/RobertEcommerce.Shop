@@ -1,4 +1,7 @@
 ﻿using Asp.Versioning.Conventions;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -91,7 +94,13 @@ public static class IdentityApi
 		#endregion
 
 		#region OAuthService
+		api.MapGet("/google-login", GoogleLogin)
+			.WithName("GoogleLogin");
+		#endregion
 
+		#region Create Role
+		api.MapGet("/google-login", GoogleLogin)
+			.WithName("GoogleLogin");
 		#endregion
 		return app;
 	}
@@ -175,7 +184,7 @@ public static class IdentityApi
 	#region Create User
 	public static async Task<IResult> CreateUser(
 		[FromServices] IIdentityService service,
-		ApplicationUser user,
+		[FromBody] UserCreateDto user,
 		string password)
 	{
 		var result = await service.CreateUserAsync(user, password);
@@ -305,6 +314,39 @@ public static class IdentityApi
 		if (user is null) return Results.NotFound();
 		var isInRole = await service.IsInRoleAsync(user, role);
 		return Results.Ok(isInRole);
+	}
+
+	#endregion
+
+	#region OAuthService
+	public static async Task<IResult> GoogleLogin(HttpContext context, IIdentityService service)
+	{
+		var result = await context.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+		if (!result.Succeeded || result.Principal == null)
+		{
+			var properties = new AuthenticationProperties
+			{
+				RedirectUri = "/api/auth/google"
+			};
+
+			await context.ChallengeAsync(GoogleDefaults.AuthenticationScheme, properties);
+			return Results.Empty;
+		}
+
+		var email = result.Principal.FindFirst(ClaimTypes.Email)?.Value;
+		var name = result.Principal.FindFirst(ClaimTypes.Name)?.Value;
+
+		if (string.IsNullOrEmpty(email))
+		{
+			return Results.BadRequest(new { Message = "Không lấy được email từ Google." });
+		}
+
+
+		return Results.Ok(new
+		{
+			Message = "Đăng ký bằng Google thành công",
+		});
 	}
 	#endregion
 }

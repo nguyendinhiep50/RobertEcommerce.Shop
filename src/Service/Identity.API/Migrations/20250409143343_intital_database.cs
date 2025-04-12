@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Identity.API.Migrations
 {
     /// <inheritdoc />
-    public partial class itital_identity : Migration
+    public partial class intital_database : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,24 @@ namespace Identity.API.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    UserKbn = table.Column<string>(type: "text", nullable: false),
+                    Name1 = table.Column<string>(type: "text", nullable: false),
+                    Name2 = table.Column<string>(type: "text", nullable: false),
+                    NickName = table.Column<string>(type: "text", nullable: false),
+                    Addr = table.Column<string>(type: "text", nullable: false),
+                    Addr1 = table.Column<string>(type: "text", nullable: false),
+                    Addr2 = table.Column<string>(type: "text", nullable: false),
+                    Fax = table.Column<string>(type: "text", nullable: false),
+                    Sex = table.Column<string>(type: "text", nullable: false),
+                    BirthYear = table.Column<string>(type: "text", nullable: false),
+                    BirthMonth = table.Column<string>(type: "text", nullable: false),
+                    BirthDay = table.Column<string>(type: "text", nullable: false),
+                    MailFlg = table.Column<string>(type: "text", nullable: false),
+                    MemberRankId = table.Column<string>(type: "text", nullable: false),
+                    DateLastLoggedin = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    UserManagementLevelId = table.Column<string>(type: "text", nullable: false),
+                    OrderCountOrderRealtime = table.Column<int>(type: "integer", nullable: true),
+                    ReferredUserId = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -273,10 +291,20 @@ namespace Identity.API.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ApplicationUser_Email",
+                table: "AspNetUsers",
+                column: "Email");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rb_CustomerUser_Email",
+                table: "Rb_CustomerUsers",
+                column: "Email");
         }
 
         /// <inheritdoc />

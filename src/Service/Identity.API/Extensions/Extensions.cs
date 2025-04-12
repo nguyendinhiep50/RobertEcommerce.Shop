@@ -1,6 +1,8 @@
 ﻿using Identity.API.Identity.OverrideIdentity;
 using Identity.API.Interface;
 using Identity.API.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -30,9 +32,23 @@ public static class Extensions
 		this IServiceCollection services,
 		IConfiguration configuration)
 	{
+		services.AddSingleton(TimeProvider.System);
+
 		services.AddMigration<ApplicationDbContext, SeedData>();
 
 		services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+		services.AddAuthentication(options =>
+		{
+			options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+			options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+		})
+		.AddCookie()
+		.AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+		{
+			options.ClientId = configuration.GetSection("GoogleKeys:ClientId").Value!;
+			options.ClientSecret = configuration.GetSection("GoogleKeys:ClientSecret").Value!;
+		});
 
 		services.AddAuthentication(options =>
 		{
@@ -86,6 +102,7 @@ public static class Extensions
 			.AddDefaultTokenProviders();
 
 		services.AddScoped<IIdentityService, IdentityService>();
+		services.AddScoped<IIdentityService, RoleService>();
 		services.AddAuthorization();
 		services.AddScoped<IUser, CurrentUser>();
 
