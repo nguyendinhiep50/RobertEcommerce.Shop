@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -44,11 +46,14 @@ public static class IdentityUtility
 		claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, idUser ?? string.Empty));
 		claims.AddClaim(new Claim(ClaimTypes.Name, userName ?? string.Empty));
 
-		foreach (var role in roles)
+		if (roles != null && roles.Any())
 		{
-			if (!string.IsNullOrWhiteSpace(role))
+			foreach (var role in roles)
 			{
-				claims.AddClaim(new Claim(ClaimTypes.Role, role));
+				if (!string.IsNullOrWhiteSpace(role))
+				{
+					claims.AddClaim(new Claim(ClaimTypes.Role, role));
+				}
 			}
 		}
 
@@ -61,9 +66,19 @@ public static class IdentityUtility
 
 		if (!handler.CanReadToken(token))
 			return null;
+		var key = Encoding.ASCII.GetBytes(Constant.CONSTANT_HASH_KEY_IDENTITY);
 
-		var jwtToken = handler.ReadJwtToken(token);
+		var validationParameters = new TokenValidationParameters
+		{
+			ValidateIssuer = false,
+			ValidateAudience = false,
+			ValidateIssuerSigningKey = true,
+			IssuerSigningKey = new SymmetricSecurityKey(key)
+		};
 
-		return jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+		var principal = handler.ValidateToken(token, validationParameters, out _);
+		var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+		return userId;
 	}
 }

@@ -1,42 +1,23 @@
 ﻿using AutoMapper;
 using Identity.API.Identity.OverrideIdentity;
-using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 
 namespace Identity.API.Services;
 
 public class IdentityService : IIdentityService
 {
-	private readonly IConfiguration _configuration;
 	private readonly CustomUserManager _userManager;
-	private readonly CustomUserClient _userClient;
-	private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
-	private readonly IAuthorizationService _authorizationService;
 	private readonly SignInManager<ApplicationUser> _signInManager;
-	private readonly SignInManager<Rb_CustomerUser> _signInManagerCustomer;
 	private readonly IMapper _mapper;
-	private readonly IUser _user;
 
 	public IdentityService(
-		IConfiguration configuration,
 		CustomUserManager userManager,
-		CustomUserClient userClient,
 		SignInManager<ApplicationUser> signInManager,
-		SignInManager<Rb_CustomerUser> signInManagerCustomer,
-		IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
-		IMapper mapper,
-		IAuthorizationService authorizationService,
-		IUser user)
+		IMapper mapper)
 	{
-		_configuration = configuration;
 		_userManager = userManager;
-		_userClient = userClient;
-		_userClaimsPrincipalFactory = userClaimsPrincipalFactory;
-		_authorizationService = authorizationService;
 		_signInManager = signInManager;
-		_signInManagerCustomer = signInManagerCustomer;
 		_mapper = mapper;
-		_user = user;
 	}
 
 	#region Get
@@ -100,7 +81,6 @@ public class IdentityService : IIdentityService
 	#endregion
 
 	#region Create
-
 	public async Task<IdentityResult> CreateUserAsync(
 		UserCreateDto userDto,
 		string password,
@@ -136,7 +116,6 @@ public class IdentityService : IIdentityService
 		var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 		return true;
 	}
-
 	#endregion
 
 	#region Update

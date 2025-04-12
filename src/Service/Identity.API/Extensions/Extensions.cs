@@ -32,8 +32,6 @@ public static class Extensions
 		this IServiceCollection services,
 		IConfiguration configuration)
 	{
-		services.AddSingleton(TimeProvider.System);
-
 		services.AddMigration<ApplicationDbContext, SeedData>();
 
 		services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -102,7 +100,8 @@ public static class Extensions
 			.AddDefaultTokenProviders();
 
 		services.AddScoped<IIdentityService, IdentityService>();
-		services.AddScoped<IIdentityService, RoleService>();
+		services.AddScoped<IRoleService, RoleService>();
+
 		services.AddAuthorization();
 		services.AddScoped<IUser, CurrentUser>();
 

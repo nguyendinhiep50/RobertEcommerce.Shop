@@ -2,12 +2,12 @@
 
 public class CurrentUser : IUser
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
+	private readonly IHttpContextAccessor _httpContextAccessor;
 	private readonly IWebHostEnvironment _webHostEnvironment;
 
 	public CurrentUser(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
-    {
-        _httpContextAccessor = httpContextAccessor;
+	{
+		_httpContextAccessor = httpContextAccessor;
 		_webHostEnvironment = webHostEnvironment;
 	}
 

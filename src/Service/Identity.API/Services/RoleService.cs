@@ -2,19 +2,19 @@
 
 public class RoleService : IRoleService
 {
-	private readonly RoleManager<IdentityRole> _roleManager;
+	private readonly RoleManager<ApplicationRole> _roleManager;
 
-	public RoleService(RoleManager<IdentityRole> roleManager)
+	public RoleService(RoleManager<ApplicationRole> roleManager)
 	{
 		_roleManager = roleManager;
 	}
 
-	public async Task<IEnumerable<IdentityRole>> GetAllRolesAsync()
+	public async Task<IEnumerable<ApplicationRole>> GetAllRolesAsync()
 	{
 		return await _roleManager.Roles.ToListAsync();
 	}
 
-	public async Task<IdentityRole?> GetRoleByIdAsync(string roleId)
+	public async Task<ApplicationRole?> GetRoleByIdAsync(string roleId)
 	{
 		return await _roleManager.FindByIdAsync(roleId);
 	}
@@ -24,7 +24,7 @@ public class RoleService : IRoleService
 		if (await _roleManager.RoleExistsAsync(roleName))
 			return IdentityResult.Failed(new IdentityError { Description = "Role already exists." });
 
-		return await _roleManager.CreateAsync(new IdentityRole(roleName));
+		return await _roleManager.CreateAsync(new ApplicationRole(roleName));
 	}
 
 	public async Task<IdentityResult> UpdateRoleAsync(string roleId, string newRoleName)

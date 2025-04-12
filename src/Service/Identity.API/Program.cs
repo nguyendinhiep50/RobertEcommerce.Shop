@@ -16,6 +16,8 @@ app.MapDefaultEndpoints();
 app.UseStatusCodePages();
 
 app.MapIdentityApi();
+app.MapIndentiyForAuthenticationApi();
+app.MapIdentityForRoleApi();
 
 app.UseDefaultOpenApi();
 app.Run();

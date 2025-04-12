@@ -1,6 +1,5 @@
 ﻿using Identity.API.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore.Storage;
-using System.Reflection;
 
 namespace Identity.API.Data;
 
@@ -45,8 +44,5 @@ public class ApplicationDbContext
 			.IsUnique(false);
 
 		base.OnModelCreating(builder);
-		builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-		DataSeeder.Seed(builder);
-
 	}
 }

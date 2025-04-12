@@ -34,7 +34,6 @@ internal static class MigrateDbContextExtensions
 		var scopeServices = scope.ServiceProvider;
 		var logger = scopeServices.GetRequiredService<ILogger<TContext>>();
 		var context = scopeServices.GetService<TContext>();
-
 		using var activity = ActivitySource.StartActivity($"Migration operation {typeof(TContext).Name}");
 
 		try
@@ -87,6 +86,7 @@ internal static class MigrateDbContextExtensions
 		}
 	}
 }
+
 public interface IDbSeeder<in TContext> where TContext : DbContext
 {
 	Task UserSeedAsync(TContext context);
