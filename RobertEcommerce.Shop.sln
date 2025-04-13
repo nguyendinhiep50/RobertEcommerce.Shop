@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobertEcommerce.Shop.EventB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobertEcommerce.Shop.ServiceDefaults", "src\Share\RobertEcommerce.Shop.ServiceDefaults\RobertEcommerce.Shop.ServiceDefaults.csproj", "{95176C5C-9E66-89D5-B657-050A5FED0821}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Constants", "src\Share\Shared.Constants\Shared.Constants.csproj", "{65383DED-68D6-59DD-DE2E-5214DB34F951}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Core", "src\Share\Shared.Constants\Shared.Core.csproj", "{65383DED-68D6-59DD-DE2E-5214DB34F951}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobertEcommerce.Shop.ManagerProject.AppHost", "RobertEcommerce.Shop.ManagerProject.AppHost\RobertEcommerce.Shop.ManagerProject.AppHost.csproj", "{7C739028-628F-1A4A-3CFE-E93FA3D24DB5}"
 EndProject

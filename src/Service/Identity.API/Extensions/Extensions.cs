@@ -1,5 +1,5 @@
 ﻿using Identity.API.Identity.OverrideIdentity;
-using Identity.API.Interface;
+using Identity.API.Models;
 using Identity.API.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -34,6 +34,8 @@ public static class Extensions
 	{
 		services.AddMigration<ApplicationDbContext, SeedData>();
 
+		JwtSettings.Initialize(configuration);
+
 		services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 		services.AddAuthentication(options =>
@@ -55,7 +57,7 @@ public static class Extensions
 		})
 		.AddJwtBearer(options =>
 		{
-			var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>(Constant.CONSTANT_HASH_KEY_IDENTITY)!);
+			var key = Encoding.ASCII.GetBytes(JwtSettings.SecretKey);
 			options.TokenValidationParameters = new TokenValidationParameters
 			{
 				ValidateIssuer = false,

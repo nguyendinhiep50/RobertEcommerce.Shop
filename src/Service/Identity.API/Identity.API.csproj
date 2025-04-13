@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Share\RobertEcommerce.Shop.ServiceDefaults\RobertEcommerce.Shop.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\..\Share\Shared.Constants\Shared.Constants.csproj" />
+    <ProjectReference Include="..\..\Share\Shared.Constants\Shared.Core.csproj" />
   </ItemGroup>
 
 </Project>

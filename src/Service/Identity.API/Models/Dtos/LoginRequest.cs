@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Identity.API.Model.Dtos
+namespace Identity.API.Models.Dtos
 {
 	public class LoginRequest
 	{

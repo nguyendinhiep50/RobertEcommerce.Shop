@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Identity.API.Identity.OverrideIdentity;
+using Identity.API.Models;
 using System.Linq.Expressions;
 
 namespace Identity.API.Services;
@@ -165,7 +166,7 @@ public class IdentityService : IIdentityService
 	{
 		return  Identity.IdentityUtility.GenerateToken(
 			user,
-			Constant.CONSTANT_HASH_KEY_IDENTITY,
+			JwtSettings.SecretKey,
 			user.Id,
 			user.Name,
 			null);

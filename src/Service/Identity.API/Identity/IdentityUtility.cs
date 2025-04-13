@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Identity.API.Models;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -66,7 +65,7 @@ public static class IdentityUtility
 
 		if (!handler.CanReadToken(token))
 			return null;
-		var key = Encoding.ASCII.GetBytes(Constant.CONSTANT_HASH_KEY_IDENTITY);
+		var key = Encoding.ASCII.GetBytes(JwtSettings.SecretKey);
 
 		var validationParameters = new TokenValidationParameters
 		{

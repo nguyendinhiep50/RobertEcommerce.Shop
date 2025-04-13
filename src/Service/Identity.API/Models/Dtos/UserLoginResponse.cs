@@ -1,4 +1,4 @@
-﻿namespace Identity.API.Model.Dtos
+﻿namespace Identity.API.Models.Dtos
 {
 	public class UserLoginResponse
 	{
