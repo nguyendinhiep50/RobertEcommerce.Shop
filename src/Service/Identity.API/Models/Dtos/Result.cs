@@ -1,4 +1,5 @@
 ﻿namespace Identity.API.Models.Dtos;
+
 public class Result
 {
 	internal Result(bool succeeded, IEnumerable<string> errors)

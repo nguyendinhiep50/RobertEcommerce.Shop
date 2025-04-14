@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Identity.API.Identity.OverrideIdentity;
-using Identity.API.Models;
 using System.Linq.Expressions;
 
 namespace Identity.API.Services;

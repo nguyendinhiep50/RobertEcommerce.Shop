@@ -1,4 +1,6 @@
 ﻿using Aspire.Hosting.Lifecycle;
+using Microsoft.Extensions.Configuration;
+using System.Text.Json;
 
 namespace RobertEcommerce.Shop.ManagerProject.AppHost;
 
@@ -52,4 +54,33 @@ internal static class Extensions
 
 		return builder;
 	}
+
+	#region Enviroment share
+	public static Dictionary<string, object?> ToDictionaryRecursive(this IConfigurationSection section)
+	{
+		var children = section.GetChildren();
+		var dict = new Dictionary<string, object?>();
+
+		foreach (var child in children)
+		{
+			if (child.GetChildren().Any())
+			{
+				dict[child.Key] = child.ToDictionaryRecursive();
+			}
+			else
+			{
+				dict[child.Key] = child.Value;
+			}
+		}
+
+		return dict;
+	}
+
+	public static string ToJson(this IConfiguration configuration, string sectionKey)
+	{
+		var section = configuration.GetSection(sectionKey);
+		var dict = section.ToDictionaryRecursive();
+		return JsonSerializer.Serialize(dict, new JsonSerializerOptions { WriteIndented = true });
+	}
+	#endregion
 }

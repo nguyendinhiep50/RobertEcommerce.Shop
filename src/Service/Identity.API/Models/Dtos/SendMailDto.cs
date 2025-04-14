@@ -1,7 +1,6 @@
-﻿namespace Identity.API.Models.Dtos
+﻿namespace Identity.API.Models.Dtos;
+
+public class SendMailDto
 {
-	public class SendMailDto
-	{
-		public string EmailSend { get; set; } = string.Empty;
-	}
+	public string EmailSend { get; set; } = string.Empty;
 }

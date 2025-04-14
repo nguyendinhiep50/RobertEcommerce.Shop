@@ -1,8 +1,7 @@
-﻿namespace Identity.API.Models.Dtos
+﻿namespace Identity.API.Models.Dtos;
+
+public class RoleDto
 {
-	public class RoleDto
-	{
-		public Guid Id { get; set; }
-		public string? Name { get; set; }
-	}
+	public Guid Id { get; set; }
+	public string? Name { get; set; }
 }

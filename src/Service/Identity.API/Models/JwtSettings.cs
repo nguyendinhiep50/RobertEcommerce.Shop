@@ -11,13 +11,11 @@ public static class JwtSettings
 
 	public static void Initialize(IConfiguration configuration)
 	{
-		var section = configuration.GetSection("JwtSettings");
-
-		Issuer = section["Issuer"]!;
-		Audience = section["Audience"]!;
-		SecretKey = section["SecretKey"]!;
-		AccessTokenExpirationMinutes = int.TryParse(section["AccessTokenExpirationMinutes"], out var accessToken) ? accessToken : 15;
-		RefreshTokenExpirationDays = int.TryParse(section["RefreshTokenExpirationDays"], out var refreshToken) ? refreshToken : 7;
-		ExpiresInMinutes = int.TryParse(section["ExpiresInMinutes"], out var result) ? result : 60;
+		Issuer = configuration["Issuer"]!;
+		Audience = configuration["Audience"]!;
+		SecretKey = configuration["SecretKey"]!;
+		AccessTokenExpirationMinutes = int.TryParse(configuration["AccessTokenExpirationMinutes"], out var accessToken) ? accessToken : 15;
+		RefreshTokenExpirationDays = int.TryParse(configuration["RefreshTokenExpirationDays"], out var refreshToken) ? refreshToken : 7;
+		ExpiresInMinutes = int.TryParse(configuration["ExpiresInMinutes"], out var result) ? result : 60;
 	}
 }

@@ -1,8 +1,7 @@
-﻿namespace Identity.API.Models.Dtos
+﻿namespace Identity.API.Models.Dtos;
+
+public class UserLoginResponse
 {
-	public class UserLoginResponse
-	{
-		public string UserName { get; set; } = null!;
-		public string Token { get; set; } = null!;
-	}
+	public string UserName { get; set; } = null!;
+	public string Token { get; set; } = null!;
 }

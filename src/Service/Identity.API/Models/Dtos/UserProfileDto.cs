@@ -1,8 +1,7 @@
-﻿namespace Identity.API.Models.Dtos
+﻿namespace Identity.API.Models.Dtos;
+
+public class UserProfileDto
 {
-	public class UserProfileDto
-	{
-		public bool HasAccess { get; set; }
-		public string? UserName { get; set; }
-	}
+	public bool HasAccess { get; set; }
+	public string? UserName { get; set; }
 }

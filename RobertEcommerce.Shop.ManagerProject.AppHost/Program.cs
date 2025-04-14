@@ -1,4 +1,7 @@
+using Aspire.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using RobertEcommerce.Shop.ManagerProject.AppHost;
+using System.Text.Json;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -29,10 +32,14 @@ var serviceCommonDb = postgres.AddDatabase("servicecommondb");
 
 var launchProfileName = ShouldUseHttpForEndpoints() ? "http" : "https";
 
-// Services
+var jwtSettingsJson = builder.Configuration.ToJson("JwtSettings");
+var authenticationSettingsJson = builder.Configuration.ToJson("Authentication");
+
 var identityApi = builder.AddProject<Projects.Identity_API>("identity-api", launchProfileName)
 	.WithExternalHttpEndpoints()
-	.WithReference(identityDb);
+	.WithReference(identityDb)
+	.WithEnvironment("JwtSettings", jwtSettingsJson)
+	.WithEnvironment("Authentication", authenticationSettingsJson);
 
 var basketApi = builder.AddProject<Projects.Manager_EC>("manager-ec")
 	.WithReference(redis)

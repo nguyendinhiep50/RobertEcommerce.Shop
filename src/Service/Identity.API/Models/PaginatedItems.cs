@@ -1,4 +1,4 @@
-﻿namespace Identity.API.Model;
+﻿namespace Identity.API.Models;
 
 public class PaginatedItems<TEntity>(int pageIndex, int pageSize, long count, IEnumerable<TEntity> data) where TEntity : class
 {

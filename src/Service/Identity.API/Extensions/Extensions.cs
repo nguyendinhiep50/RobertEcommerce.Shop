@@ -1,5 +1,5 @@
-﻿using Identity.API.Identity.OverrideIdentity;
-using Identity.API.Models;
+﻿using Identity.API.Extensions;
+using Identity.API.Identity.OverrideIdentity;
 using Identity.API.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -34,7 +34,7 @@ public static class Extensions
 	{
 		services.AddMigration<ApplicationDbContext, SeedData>();
 
-		JwtSettings.Initialize(configuration);
+		EnvironmentSettingsConfiguration.MergeEnvironmentSettings(configuration);
 
 		services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
