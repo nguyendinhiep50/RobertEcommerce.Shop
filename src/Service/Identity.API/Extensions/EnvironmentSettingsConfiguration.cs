@@ -11,7 +11,7 @@ public static class EnvironmentSettingsConfiguration
 		ConfigureJwtSettingsFromEnvironment(inMemorySettings);
 		ConfigureAuthenticationSettingsFromEnvironment(inMemorySettings);
 
-		if (inMemorySettings.Count > 0)
+		if (inMemorySettings != null && inMemorySettings.Count > 0)
 		{
 			var memoryConfig = new ConfigurationBuilder()
 				.AddInMemoryCollection(inMemorySettings)
@@ -23,7 +23,7 @@ public static class EnvironmentSettingsConfiguration
 				.Build();
 		}
 
-		var jwtSection = configuration.GetSection("JwtSettings");
+		var jwtSection = configuration.GetSection(Constant.ENVIROMENT_APP_HOST_JWT);
 		JwtSettings.Initialize(jwtSection);
 
 		return configuration;
@@ -31,23 +31,23 @@ public static class EnvironmentSettingsConfiguration
 
 	private static void ConfigureJwtSettingsFromEnvironment(Dictionary<string, string> settings)
 	{
-		var jwtJson = Environment.GetEnvironmentVariable("JwtSettings");
+		var jwtJson = Environment.GetEnvironmentVariable(Constant.ENVIROMENT_APP_HOST_JWT);
 
 		if (!string.IsNullOrEmpty(jwtJson))
 		{
 			using var doc = JsonDocument.Parse(jwtJson);
-			FlattenJsonElement(doc.RootElement, "JwtSettings", settings);
+			FlattenJsonElement(doc.RootElement, Constant.ENVIROMENT_APP_HOST_JWT, settings);
 		}
 	}
 
 	private static void ConfigureAuthenticationSettingsFromEnvironment(Dictionary<string, string> settings)
 	{
-		var authJson = Environment.GetEnvironmentVariable("Authentication");
+		var authJson = Environment.GetEnvironmentVariable(Constant.ENVIROMENT_APP_HOST_AUTHENCATION);
 
 		if (!string.IsNullOrEmpty(authJson))
 		{
 			using var doc = JsonDocument.Parse(authJson);
-			FlattenJsonElement(doc.RootElement, "Authentication", settings);
+			FlattenJsonElement(doc.RootElement, Constant.ENVIROMENT_APP_HOST_AUTHENCATION, settings);
 		}
 	}
 

@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\Service\Identity.API\Identity.API.csproj" />
-    <ProjectReference Include="..\src\Share\Shared.Constants\Shared.Core.csproj" />
     <ProjectReference Include="..\src\UI\Manager.EC\Manager.EC.csproj" />
   </ItemGroup>
 
