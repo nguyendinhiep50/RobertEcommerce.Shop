@@ -1,3 +1,5 @@
+using Identity.API.Middlewares;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
@@ -18,6 +20,7 @@ app.UseStatusCodePages();
 app.MapIdentityApi();
 app.MapIndentiyForAuthenticationApi();
 app.MapIdentityForRoleApi();
+app.RegisterMiddlewares();
 
 app.UseDefaultOpenApi();
 app.Run();

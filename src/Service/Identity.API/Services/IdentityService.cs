@@ -132,6 +132,15 @@ public class IdentityService : IIdentityService
 		var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
 		return result.Succeeded;
 	}
+
+	public async Task<bool> UpdateTimeLoginAsync(string userId)
+	{
+		var user = await _userManager.FindByIdAsync(userId);
+		if (user == null) return false;
+		user.DateLastLoggedin = DateTime.UtcNow;
+		var result = await _userManager.UpdateAsync(user);
+		return result.Succeeded;
+	}
 	#endregion
 
 	#region Delete

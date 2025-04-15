@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using RateLimiting;
 using System.Reflection;
 using System.Text;
+using System.Threading.RateLimiting;
 
 public static class Extensions
 {
@@ -35,6 +37,22 @@ public static class Extensions
 		services.AddMigration<ApplicationDbContext, SeedData>();
 
 		EnvironmentSettingsConfiguration.MergeEnvironmentSettings(configuration);
+
+		services.AddRateLimiting(options =>
+		{
+			options.Partitioner = context => context.Request.Headers["X-Forwarded-For"].FirstOrDefault()
+				?? context.Connection.RemoteIpAddress?.ToString()
+				?? "unknown";
+
+			options.DefaultLimiterFactory = key =>
+				RateLimitPartition.GetFixedWindowLimiter(key, _ => new FixedWindowRateLimiterOptions
+				{
+					PermitLimit = 20,
+					Window = TimeSpan.FromSeconds(10),
+					QueueLimit = 5,
+					QueueProcessingOrder = QueueProcessingOrder.OldestFirst
+				});
+		});
 
 		services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

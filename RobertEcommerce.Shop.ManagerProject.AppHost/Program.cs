@@ -1,7 +1,5 @@
-using Aspire.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using RobertEcommerce.Shop.ManagerProject.AppHost;
-using System.Text.Json;
 
 var builder = DistributedApplication.CreateBuilder(args);
 

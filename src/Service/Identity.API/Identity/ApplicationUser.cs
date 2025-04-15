@@ -18,6 +18,7 @@ public class ApplicationUser : IdentityUser<string>
 	public string MailFlg { get; set; } = string.Empty;
 	public string MemberRankId { get; set; } = string.Empty;
 	public DateTime? DateLastLoggedin { get; set; }
+	public string DeviceLastLoggedin { get; set; } = string.Empty;
 	public string UserManagementLevelId { get; set; } = string.Empty;
 	public int? OrderCountOrderRealtime { get; set; }
 	public string ReferredUserId { get; set; } = string.Empty;
